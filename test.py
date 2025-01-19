@@ -116,11 +116,29 @@ def analyse_tendance(symbol, interval, limit):
     trend_reverse_prob = rsi_prob + macd_prob + volume_prob
     trend_reverse_prob = max(0, min(trend_reverse_prob, 100))  # Contraindre à [0, 100]
 
-    # Détection des signaux
-    if trend == "Haussière" and current_macd > current_signal and current_rsi < 30:
-        buy_signal = True
-    elif trend == "Baissière" and current_macd < current_signal and current_rsi > 70:
-        sell_signal = True
+    # Détection des signaux avec conditions plus flexibles
+    if trend == "Haussière":
+        # Si la tendance est haussière et RSI indique surachat mais MACD reste fort
+        if current_rsi > 70 and current_macd > current_signal:
+            # On pourrait ajuster ici pour une possible correction avant d'acheter
+            buy_signal = False
+        elif current_rsi < 30 and current_macd > current_signal:
+            # Un RSI bas dans une tendance haussière peut signaler une opportunité d'achat
+            buy_signal = True
+        else:
+            buy_signal = False
+
+    elif trend == "Baissière":
+        # Si la tendance est baissière et RSI indique survente mais MACD reste faible
+        if current_rsi > 70 and current_macd < current_signal:
+            # On pourrait ajuster ici pour une vente dans une tendance baissière
+            sell_signal = True
+        elif current_rsi < 30 and current_macd < current_signal:
+            # RSI bas dans une tendance baissière, indique plutôt un renforcement de la tendance
+            sell_signal = False
+        else:
+            sell_signal = False
+
 
     # Retour des résultats
     return {

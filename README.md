@@ -37,7 +37,7 @@ Pour exécuter VoyTrade, assurez-vous d'avoir les éléments suivants installés
 
 1. Clonez ce dépôt :
    ```bash
-   git clone https://github.com/votre-utilisateur/voytrade.git
+   git clone https://github.com/LeoLorquy/voytrade.git
    ```
 
 2. Naviguez dans le répertoire du projet :
